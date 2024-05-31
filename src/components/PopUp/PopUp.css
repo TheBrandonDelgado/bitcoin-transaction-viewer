@@ -1,0 +1,86 @@
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    position: absolute;
+}
+
+.pop-up-body {
+    display: flex;
+    flex-direction: center;
+}
+
+.pop-up {
+    background-color: white;
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Overlay Light Mode */
+    box-shadow: 0px 0px 0px 1px rgba(18, 18, 23, 0.10), 0px 24px 48px 0px rgba(18, 18, 23, 0.03), 0px 10px 18px 0px rgba(18, 18, 23, 0.03), 0px 5px 8px 0px rgba(18, 18, 23, 0.04), 0px 2px 4px 0px rgba(18, 18, 23, 0.04);
+    border: 2px solid #B6C6C6;
+    max-width: 950px;
+}
+
+.pop-up-image {
+    width: 100%;
+}
+
+.image-container {
+    flex: 1; /* No grow, no shrink, basis of 50% */
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-in-title {
+    padding: 12px 32px 12px 24px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.sign-in-title-container {
+    border-bottom: 2px solid #B6C6C6;
+    border-top: 2px solid #B6C6C6;
+    width: 100%;
+    background-color: #F0F1F1;;
+}
+
+.pop-up-header {
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.stepper {
+    height: 15px;
+    visibility: hidden;
+}
+
+.stepper.visible {
+    visibility: visible;
+}
+
+.pop-up-close-icon {
+    height: 48px;
+    cursor: pointer;
+}
+
+.pop-up-back-icon {
+    height: 48px;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+.pop-up-back-icon.visible {
+    height: 48px;
+    cursor: pointer;
+    visibility: visible;
+}

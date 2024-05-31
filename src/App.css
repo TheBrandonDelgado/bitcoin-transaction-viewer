@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+:root {
+  --component-colors-fields-inp-drpd-srch-field-text-placeholder: rgba(0, 30, 32, 0.40);
+  --spacing-lg: 12px;
+  --spacing-7x1: 40px;
+  --Component-colors-Buttons-Primary-button-primary-fg_disabled: #ACC6C5;
+  --Component-colors-Buttons-Primary-button-primary-bg_disabled: #EFF4F4;
+  --radius-xs: 4px;
+  --dark-teal-05-main-new: #00474B;
+  --Component-colors-Buttons-Primary-button-primary-bg: #147C83;
+  --Component-colors-Buttons-Primary-button-primary-fg: #F8F8F8;
+  --component-colors-fields-inp-drpd-srch-field-icon-error: #F50000;
+  --dark-teal-05-main-new: #00474B;
+  --Dark-Teal-02: #001E20;
+  --Greyscale-05: #CDD;
+  --greyscale-02-lm: #F0F1F1;
+  --Greyscale-06: #B6C6C6;
+  --spacing-2xl: 20px;
+  --Colors-Text-text-primary: #001E20;
+  --Colors-Border-border-primary: #CDD;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+h1 {
+  color: var(--Dark-Teal-02);
+  /* Web/Mono/Copy/Large/Med */
+  font-family: "DM Mono";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 120% */
+  text-transform: uppercase;
+}
+
+h2 {
+  color: var(--Dark-Teal-02);
+
+  /* Web/Mono/Copy/Large/Med */
+  font-family: "DM Mono";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 120% */
+}
+
+.dashboard-header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  height: 60px;
+  gap: 32px;
+  background: #F0F1F1;
+}
+
+.anchorwatch-logo {
+  width: 32px;
+  height: 32px;
+}
+
+.eye-icon {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right: 24px;
+}
+
+.address-container {
+  height: 79px;
+  width: calc(100% - 36px);
+  border-top: 1px solid var(--Greyscale-05);
+  border-bottom: 1px solid var(--Greyscale-05);
+  display: flex;
+  align-items: center;
+  padding: 10px 16px 10px var(--spacing-2xl);
+  justify-content: space-between;
+}
+
+.dashboard-container {
+  width: 100%;
+  display: flex;
+}
+
+.address {
+  color: var(--Colors-Text-text-primary);
+
+  /* Web/Mono/Heading 04/Mono Med */
+  font-family: "DM Mono";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 115%; /* 36.8px */
+  letter-spacing: 1.6px;
+}
+
+.live-total-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.slanted-bitcoin-icon {
+  height: 22.44px;
+  width: 17px;
+  margin-right: -10px;
+}
+
+.bitcoin-total {
+  color: var(--Colors-Text-text-primary, #001E20);
+
+  /* Web/Mono/Heading 05/Med */
+  font-family: "DM Mono";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 115%; /* 32.2px */
+  letter-spacing: 1.4px;
+}
+
+.usd-total {
+  color: var(--Colors-Text-text-secondary, #00474B);
+
+  /* Web/Mono/Copy/ExtraLarge/Reg */
+  font-family: "DM Mono";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28.8px; /* 120% */
+}
+
+.wallet-data-header {
+  height: 50px;
+  background: var(--greyscale-02-lm);
+  width: 100%;
+}
+
+.wallet-data-container {
+  width: 100%;
+}
