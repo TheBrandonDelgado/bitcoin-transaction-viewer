@@ -14,15 +14,17 @@ const App = () => {
   const [ signedIn, setSignedIn ] = useState(false);
   const [ loginPopUpOpen, setLoginPopUpOpen ] = useState(false);
   const [ btcPopUpOpen, setBTCPopUpOpen ] = useState(false);
-  const [ address, setAddress ] = useState('');
+  const [ address, setAddress ] = useState(null);
   const [ addressDetails, setAddressDetails ] = useState();
   const [ btcPrice, setBTCPrice ] = useState();
   const [ fullAddressHistory, setFullAddressHistory ] = useState();
 
   const fetchBTCAddress = async () => {
     const response = await fetch(`/.netlify/functions/api/address/${window.location.href.slice(-1)}`);
-    const result = await response.text();
-    setAddress(result);
+    if (response.ok) {
+      const result = await response.text();
+      setAddress(result);
+    }
   } 
 
   const fetchBTCAddressDetails = async () => {
@@ -64,28 +66,29 @@ const App = () => {
     return data.prices[0].USD;
 };
 
-const calculateBalancesAndValues = async (transactions) => {
-  let balance = addressDetails.chain_stats.funded_txo_sum - addressDetails.chain_stats.spent_txo_sum;  // Starting balance
-  const transactionsWithValues = [];
+  const calculateBalancesAndValues = async (transactions) => {
+    let balance = addressDetails.chain_stats.funded_txo_sum - addressDetails.chain_stats.spent_txo_sum;  // Starting balance
+    const transactionsWithValues = [];
 
-  for (const tx of transactions) {
-      const received = tx.vout.reduce((sum, output) => sum + (output.value || 0), 0);
-      const spent = tx.vin.reduce((sum, input) => sum + (input.prevout.value || 0), 0);
-      balance += (received - spent);
+    for (const tx of transactions) {
+        const received = tx.vout.reduce((sum, output) => sum + (output.value || 0), 0);
+        const spent = tx.vin.reduce((sum, input) => sum + (input.prevout.value || 0), 0);
+        balance += (received - spent);
 
-      const txTime = tx.status.block_time * 1000;
-      const price = await fetchHistoricalPrice(txTime / 1000);
-      const balanceValue = balance * price;
+        const txTime = tx.status.block_time * 1000;
+        const price = await fetchHistoricalPrice(txTime / 1000);
+        const balanceValue = balance * price;
 
-      transactionsWithValues.push({
-          ...tx,
-          balance: balance,
-          balanceValue: balanceValue
-      });
+        transactionsWithValues.push({
+            ...tx,
+            balance: balance,
+            balanceValue: balanceValue,
+            transactionValue: Math.abs(received - spent)
+        });
+    }
+
+    return transactionsWithValues;
   }
-
-  return transactionsWithValues;
-}
 
   const fetchTransactions = async (url, transactions = []) => {
     const baseUrl = `https://mempool.space/api/address/${address}/txs`;
@@ -108,7 +111,7 @@ const calculateBalancesAndValues = async (transactions) => {
     console.log(transactions)
     const calculatedTransactions = await calculateBalancesAndValues(transactions);
     setFullAddressHistory(calculatedTransactions);
-    // console.log(fullAddressHistory);
+    console.log(fullAddressHistory);
   }
 
   // const getHistoricalPrices = async ()
@@ -119,9 +122,10 @@ const calculateBalancesAndValues = async (transactions) => {
     }
     if (window.location.href.includes('user')) {
       setSignedIn(true);
+      fetchBTCAddress();
     }
-    fetchBTCAddress();
     if (address) {
+      console.log(address)
       fetchBTCAddressDetails();
       fetchBTCPrice();
     }
@@ -158,11 +162,11 @@ const calculateBalancesAndValues = async (transactions) => {
         <img className="eye-icon" src={eyeIcon} />
       </div>
       <div className="address-container">
-        <p className="address">{address.slice(0, 10) + "..." + address.slice(-10)}</p>
+        { address && <p className="address">{address.slice(0, 10) + "..." + address.slice(-10)}</p>}
         <div className="live-total-container">
-          <img className="slanted-bitcoin-icon" src={slantedBitcoinIcon}/>
-          { addressDetails && <p className="bitcoin-total">{addressDetails.chain_stats.funded_txo_sum - addressDetails.chain_stats.spent_txo_sum} BTC</p>}
-          { (addressDetails && btcPrice) && <p className="usd-total">${btcPrice * addressDetails.chain_stats.funded_txo_sum - addressDetails.chain_stats.spent_txo_sum} USD</p>}
+          { addressDetails && <img className="slanted-bitcoin-icon" src={slantedBitcoinIcon}/>}
+          { addressDetails && <p className="bitcoin-total">{(addressDetails.chain_stats.funded_txo_sum - addressDetails.chain_stats.spent_txo_sum) / 100000000} BTC</p>}
+          { (addressDetails && btcPrice) && <p className="usd-total">${(btcPrice * ((addressDetails.chain_stats.funded_txo_sum - addressDetails.chain_stats.spent_txo_sum) / 100000000)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD</p>}
         </div>
       </div>
       <div className="dashboard-container">
@@ -170,7 +174,7 @@ const calculateBalancesAndValues = async (transactions) => {
         <div className="wallet-data-container">
           <div className="wallet-data-header"></div>
           {/* { fullAddressHistory && <Holdings fullAddressHistory={fullAddressHistory} />} */}
-          <Transactions fullAddressHistory={fullAddressHistory} />
+          <Transactions fullAddressHistory={fullAddressHistory} address={address} />
         </div>
       </div>
     </div>
