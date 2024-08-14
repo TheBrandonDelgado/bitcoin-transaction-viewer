@@ -5,7 +5,7 @@ function Transaction({ tx, address }) {
     const satoshisToBTC = satoshis => satoshis / 100000000;
     const [transactionType, setTransactionType] = useState('');
     const [transactionId, setTransactionId] = useState(tx.txid);
-    const [transactionDate, setTransactionDate] = useState('');
+    const [transactionDate, setTransactionDate] = useState();
     const [confirmed, setConfirmed] = useState(tx.status.confirmed);
     const [amount, setAmount] = useState(satoshisToBTC(tx.transactionValue));
     const [balance, setBalance] = useState(satoshisToBTC(tx.balance));
@@ -34,7 +34,7 @@ function Transaction({ tx, address }) {
     }
 
     const getTransactionDate = () => {
-        if (confirmed && tx.status.block_time) {
+        if (tx.status.block_time) {
             const date = new Date(tx.status.block_time * 1000).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
             setTransactionDate(date);
         }
@@ -43,7 +43,7 @@ function Transaction({ tx, address }) {
     return (
         <>
             <p className="transaction-type">{transactionType}</p>
-            <p className={`transaction-date ${confirmed ? '' : 'no-date'}`}>{transactionDate ? transactionDate : '00/00/0000'}</p>
+            <p className={`transaction-date ${confirmed ? '' : 'no-date'}`}>{transactionDate}</p>
             <p className="transaction-id">{transactionId}</p>
             <p className="transaction-amount">{transactionType === 'receive' ? `+ ${amount}` : `- ${amount}`}</p>
             <p className="transaction-balance">{balance}</p>
